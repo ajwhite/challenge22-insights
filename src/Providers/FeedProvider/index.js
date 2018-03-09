@@ -3,6 +3,7 @@ import * as FB from '../../utils/fb'
 import {getMentorsFromFeed} from '../../utils/mentorInsights'
 
 const FeedContext = React.createContext('feed')
+const CACHE_KEY = 'feed';
 
 export class FeedProvider extends React.Component {
   state = {
@@ -12,11 +13,20 @@ export class FeedProvider extends React.Component {
   }
 
   componentDidMount() {
-    FB.getFeed().then(({data: feed}) => {
-      this.setState({feed, loading: false})
-    }).catch(error => {
-      this.setState({error, loading: false})
-    })
+    let cache = localStorage.getItem(CACHE_KEY);
+    if (cache) {
+      this.setState({
+        feed: JSON.parse(cache),
+        loading: false
+      });
+    } else {
+      FB.getFeed().then(({data: feed}) => {
+        this.setState({feed, loading: false})
+        localStorage.setItem(CACHE_KEY, JSON.stringify(feed))
+      }).catch(error => {
+        this.setState({error, loading: false})
+      })
+    }
   }
 
   render() {

@@ -8,7 +8,7 @@ const columns = [
     dataIndex: 'name',
     render: (text, {mentor}) => (
       <div>
-        {mentor.avatar && <img src={mentor.avatar} style={{marginRight: 8}} />}
+        {mentor.avatar && <img src={mentor.avatar} style={{marginRight: 8, height: 50, width: 50}} />}
         <Link to={`/mentor/${mentor.id}`}>{mentor.name}</Link>
       </div>
     ),

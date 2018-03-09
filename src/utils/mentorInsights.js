@@ -8,6 +8,15 @@ const createIdMapOf = (ids, initialValue) => ids.reduce((map, id) => {
   return map;
 }, {})
 
+export function getIndividualMentorActivityFromFeed (mentorId, feed) {
+  let activity = getMentorActivityFromFeed([{id: mentorId}], feed);
+
+  return Object.keys(activity).reduce((map, type) => {
+    map[type] = activity[type][mentorId]
+    return map;
+  }, {})
+}
+
 export function getMentorActivityFromFeed (mentors, feed) {
   const ids = mentors.map(mentor => mentor.id);
 
@@ -133,6 +142,39 @@ export function getMentorsFromFeed (feed) {
 
     return map;
   }, {})
-console.log('mentor map', mentorMap)
+
   return Object.values(mentorMap)
+}
+
+export function getMentorCommentsWithContext(mentorId, feed) {
+  const mentorComments = [];
+
+  for (let i = 0; i < feed.length; i++) {
+    let post = feed[i]
+    let comments = post.comments ? post.comments.data : []
+
+    for (let j = 0; j < comments.length; j++) {
+      let comment = comments[j]
+      let commentAuthor = comment.from.id;
+
+      if (commentAuthor === mentorId) {
+        let context = j === 0 ? post : comments[j - 1];
+        mentorComments.push({context, comment})
+      }
+
+      let commentComments = comment.comments ? comment.comments.data : []
+
+      for (let k = 0; k < commentComments.length; k++) {
+        let commentComment = commentComments[k]
+        let commentCommentAuthor = commentComment.from.id
+
+        if (commentCommentAuthor === mentorId) {
+          let context = k === 0 ? comment : commentComments[k - 1]
+          mentorComments.push({context, comment})
+        }
+      }
+    }
+  }
+
+  return mentorComments;
 }
