@@ -10,8 +10,9 @@
     "lodash": "^4.17.5",
     "moment": "^2.21.0",
     "moment-range": "^3.1.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "16.3.0-alpha.1",
+    "react-dom": "16.3.0-alpha.1",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
     "react-sparklines": "^1.7.0",
     "recompose": "^0.26.0"

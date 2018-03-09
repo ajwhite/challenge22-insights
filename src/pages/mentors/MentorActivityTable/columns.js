@@ -1,5 +1,6 @@
 import React from 'react';
 import {Sparklines, SparklinesLine} from 'react-sparklines'
+import {Link} from 'react-router-dom'
 
 const columns = [
   {
@@ -8,7 +9,7 @@ const columns = [
     render: (text, {mentor}) => (
       <div>
         {mentor.avatar && <img src={mentor.avatar} style={{marginRight: 8}} />}
-        {mentor.name}
+        <Link to={`/mentor/${mentor.id}`}>{mentor.name}</Link>
       </div>
     ),
     sorter: (a, b) => a.mentor.name - b.mentor.name

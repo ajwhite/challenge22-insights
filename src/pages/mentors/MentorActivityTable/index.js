@@ -12,6 +12,7 @@ const enhance = compose(
     ...props,
     dataSource: mentors.map(mentor => ({
       mentor,
+      key: mentor.id,
       posts: activity.posts[mentor.id].length,
       threads: activity.threads[mentor.id].length,
       comments: activity.comments[mentor.id].length,

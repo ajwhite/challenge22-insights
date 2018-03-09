@@ -6,33 +6,32 @@ import * as FB from '../../utils/fb';
 import Loader from '../../components/loader';
 import {getMentorsFromFeed, getMentorActivityFromFeed} from '../../utils/mentorInsights';
 import MentorActivityTable from './MentorActivityTable'
+import {withFeed} from '../../Providers/FeedProvider'
 
-export default class MentorPageContainer extends React.Component {
+class MentorPageContainer extends React.Component {
   state = {
     feed: null,
     mentorActivity: null,
     mentors: []
   }
 
-  componentDidMount() {
-    FB.getFeed().then(resp => {
-      let feed = resp.data;
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.feedFuture.feed !== this.props.feedFuture.feed && this.props.feedFuture.feed) {
+      let feed = this.props.feedFuture.feed;
       let mentors = getMentorsFromFeed(feed)
-      console.log('feed size', feed.length)
+      let mentorActivity = getMentorActivityFromFeed(mentors, feed)
+
       this.setState({
         mentors,
-        feed,
-        mentorActivity: getMentorActivityFromFeed(mentors, feed)
-      });
-    })
+        mentorActivity
+      })
+    }
   }
+
   render() {
-    console.log('state', this.state)
     return (
       <MentorPage
         mentors={this.state.mentors}
-        feed={this.state.feed}
         mentorActivity={this.state.mentorActivity}
       />
     )
@@ -57,3 +56,5 @@ function MentorPage ({mentors, mentorActivity}) {
     </div>
   )
 }
+
+export default withFeed(MentorPageContainer)
