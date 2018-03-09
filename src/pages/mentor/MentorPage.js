@@ -1,7 +1,8 @@
 import React from 'react'
 import {Row, Col} from 'antd'
 import glamorous from 'glamorous'
-import Loader from '../../components/loader';
+import Loader from '../../components/loader'
+import Sentiment from '../../components/sentiment'
 
 export default function MentorPage ({loading, mentor, comments, ...props}) {
   console.log('props', {loading, mentor, comments, ...props})
@@ -57,7 +58,7 @@ function CommentRow ({comment, context}) {
   return (
     <div style={{marginBottom: 10}}>
       {comment.message}<br/>
-      likes: {comment.like_count} - <a href="#">view</a>
+      likes: {comment.like_count} - sentiment: <Sentiment score={comment.sentiment.score} /> - <a href="#">view</a>
     </div>
   )
 }

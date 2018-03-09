@@ -15,7 +15,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
     "react-sparklines": "^1.7.0",
-    "recompose": "^0.26.0"
+    "recompose": "^0.26.0",
+    "sentiment": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
