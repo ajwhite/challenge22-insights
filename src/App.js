@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import {FeedProvider} from './Providers/FeedProvider'
+import {MentorsProvider} from './Providers/MentorsProvider';
 import Header from './components/page/header';
 import Page from './components/page';
 import MentorsPage from './pages/mentors';
@@ -16,10 +17,12 @@ class App extends Component {
     return (
       <Router>
         <FeedProvider>
-          <Page>
-            <Route exact path="/" component={MentorsPage} />
-            <Route path="/mentor/:mentorId" component={MentorPage} />
-          </Page>
+          <MentorsProvider>
+            <Page>
+              <Route exact path="/" component={MentorsPage} />
+              <Route path="/mentor/:mentorId" component={MentorPage} />
+            </Page>
+          </MentorsProvider>
         </FeedProvider>
       </Router>
     );

@@ -7,31 +7,39 @@ import Loader from '../../components/loader';
 import {getMentorsFromFeed, getMentorActivityFromFeed} from '../../utils/mentorInsights';
 import MentorActivityTable from './MentorActivityTable'
 import {withFeed} from '../../Providers/FeedProvider'
+import {withMentors} from '../../Providers/MentorsProvider'
 
 class MentorPageContainer extends React.Component {
   state = {
-    feed: null,
-    mentorActivity: null,
-    mentors: []
+    mentorActivity: null
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.feedFuture.feed !== this.props.feedFuture.feed && this.props.feedFuture.feed) {
+    if (
+      (
+        prevProps.feedFuture.feed !== this.props.feedFuture.feed ||
+        prevProps.mentors !== this.props.mentors
+      ) &&
+      this.props.feedFuture.feed && this.props.mentors.length > 0
+    ) {
+    // if (prevProps.feedFuture.feed !== this.props.feedFuture.feed && this.props.feedFuture.feed) {
       let feed = this.props.feedFuture.feed;
-      let mentors = getMentorsFromFeed(feed)
-      let mentorActivity = getMentorActivityFromFeed(mentors, feed)
+      let mentorActivity = getMentorActivityFromFeed(this.props.mentors, feed)
 
       this.setState({
-        mentors,
         mentorActivity
       })
     }
   }
 
   render() {
+    console.log('MentorPage', {
+      state: this.state,
+      props: this.props
+    })
     return (
       <MentorPage
-        mentors={this.state.mentors}
+        mentors={this.props.mentors}
         mentorActivity={this.state.mentorActivity}
       />
     )
@@ -57,4 +65,4 @@ function MentorPage ({mentors, mentorActivity}) {
   )
 }
 
-export default withFeed(MentorPageContainer)
+export default withFeed(withMentors(MentorPageContainer))

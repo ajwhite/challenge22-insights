@@ -1,8 +1,8 @@
 import React from 'react'
 import * as FB from '../../utils/fb'
+import {getMentorsFromFeed} from '../../utils/mentorInsights'
 
 const FeedContext = React.createContext('feed')
-console.log('CONTEXT', FeedContext)
 
 export class FeedProvider extends React.Component {
   state = {
@@ -32,7 +32,7 @@ export function withFeed(WrappedComponent) {
   return function WrappedComponentWithFeed(props) {
     return (
       <FeedContext.Consumer>
-        {feed => <WrappedComponent feedFuture={feed} />}
+        {feed => <WrappedComponent {...props} feedFuture={feed} />}
       </FeedContext.Consumer>
     )
   }
